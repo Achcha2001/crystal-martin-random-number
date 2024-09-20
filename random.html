@@ -130,9 +130,9 @@ h2 {
     </div>
 
     <script>
-        const generatedNumbers = {};  // Store generated numbers for factories
-        const usedNumbers = [];       // Keep track of used numbers
-
+        const generatedNumbers = {};  
+        const usedNumbers = [];       
+    
         function showGenerateButton() {
             const factory = document.getElementById("factory-select").value;
             if (factory) {
@@ -141,34 +141,39 @@ h2 {
                 document.getElementById("generate-btn").style.display = 'none';
             }
         }
-
+    
         function generateNumber() {
             const factory = document.getElementById("factory-select").value;
-
+    
             if (!factory) {
                 alert("Please select a factory first!");
                 return;
             }
-
+    
             if (!generatedNumbers[factory]) {
                 let number;
-
-        
-                do {
-                    number = Math.floor(Math.random() * 7) + 1; 
-                } while (usedNumbers.includes(number));
-
+    
+                // If the selected factory is "CME", assign 7
+                if (factory === "CME") {
+                    number = 7;
+                } else {
+                    // Generate a random number between 1 and 6 for other factories
+                    do {
+                        number = Math.floor(Math.random() * 6) + 1; 
+                    } while (usedNumbers.includes(number)); // Avoid duplicates
+                }
+    
                 generatedNumbers[factory] = number;
                 usedNumbers.push(number);
-
+    
                 // Display the result
                 const resultDiv = document.createElement('div');
                 resultDiv.className = 'result';
                 resultDiv.id = factory;
                 resultDiv.innerHTML = `<strong>${factory}</strong>: ${number}`;
-
+    
                 document.getElementById('results').appendChild(resultDiv);
-
+    
                 // Hide the button again until another factory is selected
                 document.getElementById("generate-btn").style.display = 'none';
             } else {
@@ -176,6 +181,7 @@ h2 {
             }
         }
     </script>
+    
 </div>
 </body>
 </html>
